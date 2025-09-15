@@ -1,7 +1,5 @@
 # Nayaya.ai — Generative AI for Demystifying Legal Documents
 
-![Flow Diagram](./Flwo.jpg)
-
 ## 🚀 Vision
 
 Nayaya.ai makes complex legal documents — rental agreements, loan contracts, employment offers, and online Terms of Service — easy to understand. Built on **Google Cloud AI (Document AI, Vertex AI, Gemini, Matching Engine)**, it converts dense clauses into plain-language explanations, highlights hidden risks, and answers "what-if" questions.
