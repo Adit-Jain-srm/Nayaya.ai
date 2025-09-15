@@ -1,0 +1,113 @@
+# Google Cloud Build configuration for Nayaya.ai
+steps:
+  # Build backend Docker image
+  - name: 'gcr.io/cloud-builders/docker'
+    args:
+      - 'build'
+      - '-t'
+      - 'gcr.io/$PROJECT_ID/nayaya-ai-backend:$BUILD_ID'
+      - '-t'
+      - 'gcr.io/$PROJECT_ID/nayaya-ai-backend:latest'
+      - './backend'
+    id: 'build-backend'
+
+  # Build frontend Docker image
+  - name: 'gcr.io/cloud-builders/docker'
+    args:
+      - 'build'
+      - '-t'
+      - 'gcr.io/$PROJECT_ID/nayaya-ai-frontend:$BUILD_ID'
+      - '-t'
+      - 'gcr.io/$PROJECT_ID/nayaya-ai-frontend:latest'
+      - './frontend'
+    id: 'build-frontend'
+
+  # Push backend image to Container Registry
+  - name: 'gcr.io/cloud-builders/docker'
+    args:
+      - 'push'
+      - 'gcr.io/$PROJECT_ID/nayaya-ai-backend:$BUILD_ID'
+    id: 'push-backend'
+    waitFor: ['build-backend']
+
+  # Push frontend image to Container Registry
+  - name: 'gcr.io/cloud-builders/docker'
+    args:
+      - 'push'
+      - 'gcr.io/$PROJECT_ID/nayaya-ai-frontend:$BUILD_ID'
+    id: 'push-frontend'
+    waitFor: ['build-frontend']
+
+  # Deploy backend to Cloud Run
+  - name: 'gcr.io/google.com/cloudsdktool/cloud-sdk'
+    entrypoint: 'gcloud'
+    args:
+      - 'run'
+      - 'deploy'
+      - 'nayaya-ai-backend-${_ENVIRONMENT}'
+      - '--image'
+      - 'gcr.io/$PROJECT_ID/nayaya-ai-backend:$BUILD_ID'
+      - '--region'
+      - '${_REGION}'
+      - '--platform'
+      - 'managed'
+      - '--allow-unauthenticated'
+      - '--set-env-vars'
+      - 'GOOGLE_CLOUD_PROJECT=$PROJECT_ID,GOOGLE_CLOUD_REGION=${_REGION},ENVIRONMENT=${_ENVIRONMENT}'
+      - '--memory'
+      - '4Gi'
+      - '--cpu'
+      - '2'
+      - '--max-instances'
+      - '10'
+      - '--min-instances'
+      - '0'
+    id: 'deploy-backend'
+    waitFor: ['push-backend']
+
+  # Deploy frontend to Cloud Run
+  - name: 'gcr.io/google.com/cloudsdktool/cloud-sdk'
+    entrypoint: 'gcloud'
+    args:
+      - 'run'
+      - 'deploy'
+      - 'nayaya-ai-frontend-${_ENVIRONMENT}'
+      - '--image'
+      - 'gcr.io/$PROJECT_ID/nayaya-ai-frontend:$BUILD_ID'
+      - '--region'
+      - '${_REGION}'
+      - '--platform'
+      - 'managed'
+      - '--allow-unauthenticated'
+      - '--set-env-vars'
+      - 'NODE_ENV=production'
+      - '--memory'
+      - '2Gi'
+      - '--cpu'
+      - '1'
+      - '--max-instances'
+      - '5'
+      - '--min-instances'
+      - '0'
+    id: 'deploy-frontend'
+    waitFor: ['push-frontend', 'deploy-backend']
+
+# Store images in Container Registry
+images:
+  - 'gcr.io/$PROJECT_ID/nayaya-ai-backend:$BUILD_ID'
+  - 'gcr.io/$PROJECT_ID/nayaya-ai-backend:latest'
+  - 'gcr.io/$PROJECT_ID/nayaya-ai-frontend:$BUILD_ID'
+  - 'gcr.io/$PROJECT_ID/nayaya-ai-frontend:latest'
+
+# Build configuration
+options:
+  machineType: 'E2_HIGHCPU_8'
+  substitutionOption: 'ALLOW_LOOSE'
+
+# Substitutions
+substitutions:
+  _REGION: 'us-central1'
+  _ENVIRONMENT: 'dev'
+
+# Timeout
+timeout: '1200s'
