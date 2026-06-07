@@ -1,4 +1,40 @@
-# Nayaya.ai — Generative AI for Demystifying Legal Documents
+<div align="center">
+
+# Nayaya.ai
+
+**AI-Powered Legal Research and Analysis Platform**
+
+[![Python](https://img.shields.io/badge/Python-3.10+-3776AB?logo=python&logoColor=white)](https://www.python.org/)
+[![LangChain](https://img.shields.io/badge/LangChain-Framework-1C3C3C?logo=langchain)](https://langchain.com/)
+[![Streamlit](https://img.shields.io/badge/Streamlit-App-FF4B4B?logo=streamlit)](https://streamlit.io/)
+[![Google Gemini](https://img.shields.io/badge/Gemini-AI-4285F4?logo=google)](https://ai.google.dev/)
+[![License](https://img.shields.io/badge/License-MIT-green.svg)](LICENSE)
+[![Last Commit](https://img.shields.io/github/last-commit/Adit-Jain-srm/Nayaya.ai)](https://github.com/Adit-Jain-srm/Nayaya.ai)
+
+*Democratizing legal assistance through AI — making Indian law accessible to everyone.*
+
+</div>
+
+---
+
+
+<div align="center">
+
+# Nayaya.ai
+
+**AI-Powered Legal Research and Analysis Platform**
+
+[![Python](https://img.shields.io/badge/Python-3.10+-3776AB?logo=python&logoColor=white)](https://www.python.org/)
+[![LangChain](https://img.shields.io/badge/LangChain-Framework-1C3C3C?logo=langchain)](https://langchain.com/)
+[![Streamlit](https://img.shields.io/badge/Streamlit-App-FF4B4B?logo=streamlit)](https://streamlit.io/)
+[![License](https://img.shields.io/badge/License-MIT-green.svg)](LICENSE)
+[![Last Commit](https://img.shields.io/github/last-commit/Adit-Jain-srm/Nayaya.ai)](https://github.com/Adit-Jain-srm/Nayaya.ai)
+
+*Democratizing legal assistance through AI — making Indian law accessible to everyone.*
+
+</div>
+
+---
 
 ## 🚀 Vision
 
@@ -298,3 +334,4 @@ Users should always:
 ---
 
 **Built with ❤️ using Google Cloud AI** | **Team Nayaya.ai** ✨
+
